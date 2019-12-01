@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3746265752819009154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3746265752819009153}
+  - component: {fileID: 3746265752819009152}
+  m_Layer: 0
+  m_Name: RiversManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3746265752819009153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746265752819009154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3746265752819009152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746265752819009154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8c8bacef10c4ee0adc789812e8fb73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 0}
+  logAndLilyGroup: {fileID: 0}
+  logPrefab: {fileID: 260290887463383021, guid: d4846f9b1e71b472a95e787525788bd6,
+    type: 3}
+  lilyPrefab: {fileID: 1466125285537835688, guid: cd2276cd9cb2548feba8700dca4fa8ed,
+    type: 3}
+  rowManager: {fileID: 0}
+  logsMask:
+    serializedVersion: 2
+    m_Bits: 256
+  liliesMask:
+    serializedVersion: 2
+    m_Bits: 512
+  logGridWidth: 2
+  riverMaxSpeed: 2
+  riverMinSpeed: 4
+  objectHeight: -0.05
+  logPossibility: 0.4
+  lilyPossibility: 0.4
+  logRiverProbability: 0.5

@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3320380789129688014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3320380789129688015}
+  - component: {fileID: 3320380789129688008}
+  m_Layer: 0
+  m_Name: RowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3320380789129688015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320380789129688014}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3320380789129688008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320380789129688014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed16ae1924ed74238828b9580943f239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 0}
+  carsManager: {fileID: 0}
+  riversManager: {fileID: 0}
+  obstacleGroup: {fileID: 0}
+  rowPrefab: {fileID: 2579799342898792596, guid: bf6cc1ec085054654befcdfde803f0a8,
+    type: 3}
+  rowGroup: {fileID: 0}
+  roadPrefab: {fileID: 7748361416853899250, guid: 64acb026dead5467ba7b0b105533753a,
+    type: 3}
+  plainRowMaterial: {fileID: 2100000, guid: 1c0465c4fe53842fdbe1962aea09f9a7, type: 2}
+  roadRowMaterial: {fileID: 2100000, guid: cee33130692e748c6b4aedd05e63b53f, type: 2}
+  riverRowMaterial: {fileID: 2100000, guid: 9539a60bdec0f4c5da785038dcfe67eb, type: 2}
+  advanceLvlSFX: {fileID: 0}
+  treePrefabs:
+  - {fileID: 7364126130056631876, guid: ff67d3463ca512440b8579343b2723c5, type: 3}
+  - {fileID: 6002516994809672264, guid: 0ebfbd00825ee114cbdcfd8953d662c4, type: 3}
+  - {fileID: 4648335407331538893, guid: ff0ef3072259d984ca4cf609d2e7a138, type: 3}
+  rowsAhead: 20
+  rowsBehind: 6
+  maxBehind: 4
+  deleteBehind: 9
+  maxTreeInner: 6
+  starterRows: 2
+  minimumPathway: 3
+  riverLevel: -0.1
+  roadLevel: 0.1
+  plainLevel: 0
+  scatteredTreePossibility: 0.3
