@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class PlayerController : MonoBehaviour
   public float jumpFactor;
   public float drownFactor;
   public float deathLerpFactor;
+  public float deathDelay;
 
   public Grid grid;
   public RowManager rowManager;
   public RiversManager riversManager;
   public AudioSource playerJumpSFX;
+  public GameManager gameManager;
 
   private Vector3 nextPosition;
   private Vector3 jumpVector;
@@ -26,6 +29,12 @@ public class PlayerController : MonoBehaviour
   private bool isBackDown = false;
   private bool isDead = false;
   private bool isDrown = false;
+
+  IEnumerator Death()
+  {
+    yield return new WaitForSeconds(deathDelay);
+    gameManager.Restart();
+  }
 
   // Start is called before the first frame update
   void Start()
@@ -41,6 +50,7 @@ public class PlayerController : MonoBehaviour
     {
       transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(transform.localScale.x, 0.1f, transform.localScale.z), deathLerpFactor);
       transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, 0.1f, transform.position.z), deathLerpFactor);
+      StartCoroutine("Death");
       return;
     }
     if (latchTarget != null)
@@ -63,6 +73,8 @@ public class PlayerController : MonoBehaviour
       // if (isDrown) transform.position = Vector3.Lerp(transform.position, newPos, lerpFactor);
       transform.position = newPos;
     }
+
+    if (isDrown) StartCoroutine("Death");
   }
 
   // Update is called once per frame

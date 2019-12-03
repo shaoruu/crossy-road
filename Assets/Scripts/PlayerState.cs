@@ -13,7 +13,7 @@ public class PlayerState : MonoBehaviour
 
   void Start()
   {
-    GameObject prefab = GetRandomPlayerPrefab();
+    GameObject prefab = GameManager.Instance.GetPlayerPrefab();
     Instantiate(prefab, transform.position, prefab.transform.rotation, transform);
     playerController = GetComponent<PlayerController>();
     waterParticles.Stop();
@@ -41,11 +41,5 @@ public class PlayerState : MonoBehaviour
     waterParticles.Play();
     playerController.SetDrown();
     waterSplash.PlayDelayed(.1f);
-  }
-
-  private GameObject GetRandomPlayerPrefab()
-  {
-    // return prefabs[3];
-    return prefabs[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * prefabs.Count)];
   }
 }

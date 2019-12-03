@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 
@@ -7,28 +8,36 @@ public class GameManager : MonoBehaviour
 {
   public static GameManager Instance;
 
-  public GameObject mainCamera;
-  public GameObject player;
-  public GameObject scoreObj;
-  public GameObject menuObj;
-  public GameObject scoreText;
-  public GameObject maxScoreText;
+  public List<GameObject> characters;
+
+  public CameraController cameraController;
+  public PlayerController playerController;
+
+  public RectTransform scorePanel;
+  public RectTransform menuPanel;
+  public TextMeshProUGUI scoreText;
+  public TextMeshProUGUI maxScoreText;
 
   public RowManager rowManager;
 
-  public float menuToTheRight;
   public float uiLerpFactor;
+  public float gameStartDelay;
 
-  private bool started;
   private int maxScore;
   private int topScore;
+  private int characterIndex;
+  private bool started;
+  private bool isPrepared;
+  private float menuToTheRight;
 
-  private CameraController cameraController;
-  private PlayerController playerController;
-  private Vector3 menuObjFinalPos;
-  private Vector3 scoreObjOgPos;
-  private TextMeshProUGUI scoreTextGUI;
-  private TextMeshProUGUI maxScoreTextGUI;
+  private Vector3 menuPanelInitPos;
+  private Vector3 menuPanelFinalPos;
+
+  IEnumerator GameStarter()
+  {
+    yield return new WaitForSeconds(gameStartDelay);
+    isPrepared = true;
+  }
 
   void Awake()
   {
@@ -38,39 +47,52 @@ public class GameManager : MonoBehaviour
       DontDestroyOnLoad(gameObject);
     }
     else if (Instance != this)
+    {
+      Instance.cameraController = this.cameraController;
+      Instance.playerController = this.playerController;
+      Instance.scorePanel = this.scorePanel;
+      Instance.menuPanel = this.menuPanel;
+      Instance.scoreText = this.scoreText;
+      Instance.maxScoreText = this.maxScoreText;
+
+      Instance.rowManager = this.rowManager;
+
+      Instance.isPrepared = false;
+      Instance.started = false;
+
       Destroy(gameObject);
+    }
+
+    StartCoroutine("GameStarter");
   }
 
   // Start is called before the first frame update
   void Start()
   {
     started = false;
+    isPrepared = false;
     maxScore = 0;
+    characterIndex = -1;
 
-    cameraController = mainCamera.GetComponent<CameraController>();
-    playerController = player.GetComponent<PlayerController>();
+    menuToTheRight = Screen.width * 2;
 
-    scoreTextGUI = scoreText.GetComponent<TextMeshProUGUI>();
-    maxScoreTextGUI = maxScoreText.GetComponent<TextMeshProUGUI>();
+    menuPanelInitPos = menuPanel.offsetMax;
+    menuPanelFinalPos = new Vector2(-menuToTheRight, menuPanel.offsetMax.y);
 
-    scoreObjOgPos = scoreObj.transform.position;
+    menuPanel.offsetMax = menuPanelFinalPos;
 
-    scoreObj.transform.position = new Vector3(
-       scoreObj.transform.position.x,
-       4500f,
-       scoreObj.transform.position.z
-     );
-
-    menuObjFinalPos = new Vector3(
-     menuToTheRight,
-     menuObj.transform.position.y,
-     menuObj.transform.position.z
-   );
+    GetComponent<AudioSource>().Play();
   }
 
   void FixedUpdate()
   {
-    if (!started) return;
+    if (!started)
+    {
+      if (isPrepared)
+        ShowMenu();
+
+      return;
+    }
     else
     {
       HideMenu();
@@ -80,26 +102,17 @@ public class GameManager : MonoBehaviour
     }
   }
 
-  private void HideMenu()
+  public void Restart()
   {
-    menuObj.transform.position = Vector3.Lerp(menuObj.transform.position, menuObjFinalPos, uiLerpFactor);
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
   }
 
-  private void ShowScore()
+  public GameObject GetPlayerPrefab()
   {
-    scoreObj.transform.position =
-            Vector3.Lerp(scoreObj.transform.position, scoreObjOgPos, uiLerpFactor);
-  }
-
-  private void UpdateScore()
-  {
-    int score = rowManager.GetMaxLevel();
-    scoreTextGUI.SetText(score.ToString());
-
-    if (score > maxScore)
-      maxScore = score;
-
-    maxScoreTextGUI.SetText("top: " + maxScore.ToString());
+    // return characters[8];
+    if (characterIndex == -1)
+      return characters[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * characters.Count)];
+    return characters[characterIndex];
   }
 
   public void StartGame()
@@ -109,4 +122,43 @@ public class GameManager : MonoBehaviour
     cameraController.StartGame();
     // playerController
   }
+
+  public void GoToCharactersPage()
+  {
+    isPrepared = false;
+    SceneManager.LoadScene(1);
+  }
+
+  public void SetCharacterIndex(int index)
+  {
+    characterIndex = index;
+  }
+
+  private void ShowMenu()
+  {
+    menuPanel.offsetMax = Vector2.Lerp(menuPanel.offsetMax, menuPanelInitPos, uiLerpFactor);
+  }
+
+  private void HideMenu()
+  {
+    menuPanel.offsetMax = Vector2.Lerp(menuPanel.offsetMax, menuPanelFinalPos, uiLerpFactor);
+  }
+
+  private void ShowScore()
+  {
+    scorePanel.offsetMax = Vector2.Lerp(scorePanel.offsetMax, new Vector2(scorePanel.offsetMax.x, 0), uiLerpFactor);
+  }
+
+  private void UpdateScore()
+  {
+    int score = rowManager.GetMaxLevel();
+    scoreText.SetText(score.ToString());
+
+    if (score > maxScore)
+    {
+      maxScore = score;
+      maxScoreText.SetText("top: " + maxScore.ToString());
+    }
+  }
+
 }
