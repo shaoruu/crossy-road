@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-  public static GameManager instance;
+  public static GameManager Instance;
 
   public GameObject mainCamera;
   public GameObject player;
@@ -32,11 +32,13 @@ public class GameManager : MonoBehaviour
 
   void Awake()
   {
-    if (instance == null)
-      instance = this;
-    else if (instance != this)
+    if (Instance == null)
+    {
+      Instance = this;
+      DontDestroyOnLoad(gameObject);
+    }
+    else if (Instance != this)
       Destroy(gameObject);
-    DontDestroyOnLoad(gameObject);
   }
 
   // Start is called before the first frame update

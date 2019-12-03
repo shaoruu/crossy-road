@@ -8,6 +8,9 @@ public class CameraController : MonoBehaviour
   public float cameraVelocity;
   public float cameraTransitionBase;
   public float maxPlayerDistance;
+  public float initialHeight;
+
+  public Vector3 initialRotation;
 
   private bool started;
   private Vector3 offset;
@@ -26,8 +29,9 @@ public class CameraController : MonoBehaviour
   void FixedUpdate()
   {
     if (!started) return;
+    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(initialRotation), cameraLerp);
 
-    Vector3 newPos = new Vector3(transform.position.x, transform.position.y, player.transform.position.z + offset.z);
+    Vector3 newPos = new Vector3(transform.position.x, initialHeight, player.transform.position.z + offset.z);
 
     float delta = player.transform.position.x - transform.position.x - maxPlayerDistance;
     if (delta > 0)
