@@ -16,6 +16,7 @@ public class CharacterList : MonoBehaviour
   public GameObject stageGroup;
   public GameObject characterGroup;
   public GameObject stagePrefab;
+  public AudioSource menuSelect;
   public Image infoBackground;
   public TextMeshProUGUI infoText;
   public LevelChanger levelChanger;
@@ -25,6 +26,7 @@ public class CharacterList : MonoBehaviour
 
   private Vector3 nextPosition;
   private GameManager gameManager;
+  private AudioSource boopSFX;
   private List<GameObject> characterPrefabs;
   private List<GameObject> instantiatedPrefabs;
   private List<string> characterInfo;
@@ -48,7 +50,13 @@ public class CharacterList : MonoBehaviour
       "Dig Dug Man"
     };
 
+    index = gameManager.GetCharacterIndex();
+    mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, index * characterGap);
     nextPosition = mainCamera.transform.position;
+    infoText.SetText(characterInfo[index]);
+
+    boopSFX = GetComponent<AudioSource>();
+
     InitializeCharacters();
   }
 
@@ -70,8 +78,11 @@ public class CharacterList : MonoBehaviour
     }
 
     mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, nextPosition, lerpFactor);
-    if (Mathf.RoundToInt(mainCamera.transform.position.z) == Mathf.RoundToInt(GetNearestZ(mainCamera.transform.position.z)))
+
+    int newIndex = Mathf.RoundToInt(mainCamera.transform.position.z / characterGap);
+    if (Mathf.RoundToInt(mainCamera.transform.position.z) == Mathf.RoundToInt(GetNearestZ(mainCamera.transform.position.z)) && index != newIndex)
     {
+      boopSFX.Play();
       index = Mathf.RoundToInt(mainCamera.transform.position.z / characterGap);
       infoText.SetText(characterInfo[index]);
     }
@@ -102,6 +113,7 @@ public class CharacterList : MonoBehaviour
 
     if (isEnterDown)
     {
+      menuSelect.Play();
       GameManager.Instance.SetCharacterIndex(Mathf.RoundToInt(GetNearestZ(mainCamera.transform.position.z) / characterGap));
       levelChanger.FadeToLevel(0);
       return;

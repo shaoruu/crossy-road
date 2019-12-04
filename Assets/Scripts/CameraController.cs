@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
   public float cameraTransitionBase;
   public float maxPlayerDistance;
   public float initialHeight;
+  public float behindPlayerX;
 
   public Vector3 initialRotation;
 
@@ -38,6 +39,8 @@ public class CameraController : MonoBehaviour
       velocity.x = cameraVelocity + Mathf.Pow(cameraTransitionBase, delta);
 
     newPos += velocity * Time.deltaTime;
+
+    if (newPos.x > player.transform.position.x - behindPlayerX) newPos.x = player.transform.position.x - behindPlayerX;
 
     transform.position = Vector3.Lerp(transform.position, newPos, cameraLerp);
   }

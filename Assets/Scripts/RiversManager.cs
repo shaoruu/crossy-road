@@ -13,13 +13,14 @@ public class RiversManager : MonoBehaviour
   public LayerMask liliesMask;
 
   public int logGridWidth;
+  public int starterRows;
+  public int starterRowsMargin;
   public float riverMaxSpeed;
   public float riverMinSpeed;
   public float objectHeight;
   public float logPossibility;
   public float lilyPossibility;
   public float logRiverProbability;
-
 
   private float logWidth;
 
@@ -44,7 +45,7 @@ public class RiversManager : MonoBehaviour
       for (int i = 0; i < grid.size; i++)
       {
         float logZ = grid.GetGlobalCoordFromGridCoord(direction * (-(grid.size + 1) / 2 + i));
-        if (ShouldPlaceLog())
+        if (ShouldPlaceLog(x))
         {
           GameObject newLog = Instantiate(
             logPrefab,
@@ -99,7 +100,7 @@ public class RiversManager : MonoBehaviour
       for (int i = 0; i < grid.size; i++)
       {
         float lilyZ = grid.GetGlobalCoordFromGridCoord(direction * (-(grid.size + 1) / 2 + i));
-        if (ShouldPlaceLily() || liliesDatum[i])
+        if (ShouldPlaceLily(x) || liliesDatum[i])
         {
           GameObject newLily = Instantiate(
             lilyPrefab,
@@ -190,13 +191,19 @@ public class RiversManager : MonoBehaviour
     return Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1;
   }
 
-  private bool ShouldPlaceLog()
+  private bool ShouldPlaceLog(int x)
   {
+    if (x <= starterRows) return true;
+    else if (x <= starterRows + starterRowsMargin)
+    { return Random.Range(0.0f, 1.0f) < logPossibility * 2; }
     return Random.Range(0.0f, 1.0f) < logPossibility;
   }
 
-  private bool ShouldPlaceLily()
+  private bool ShouldPlaceLily(int x)
   {
+    if (x <= starterRows) return true;
+    else if (x <= starterRows + starterRowsMargin)
+    { return Random.Range(0.0f, 1.0f) < lilyPossibility * 2; }
     return Random.Range(0.0f, 1.0f) < lilyPossibility;
   }
 

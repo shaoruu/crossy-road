@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
   private bool isBackDown = false;
   private bool isDead = false;
   private bool isDrown = false;
+  private bool isStarted = false;
 
   IEnumerator Death()
   {
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (isDead || isDrown) return;
+    if (!isStarted || isDead || isDrown) return;
 
     HandleHorizontalMovements();
     HandleVerticalMovements();
@@ -106,6 +107,11 @@ public class PlayerController : MonoBehaviour
   {
     latchTarget = null;
     latchOffset = 0;
+  }
+
+  public void StartGame()
+  {
+    isStarted = true;
   }
 
   private void HandleHorizontalMovements()

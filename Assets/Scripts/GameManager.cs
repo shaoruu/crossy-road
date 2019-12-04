@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
   public RectTransform menuPanel;
   public TextMeshProUGUI scoreText;
   public TextMeshProUGUI maxScoreText;
+  public TextMeshProUGUI startButton;
 
   public RowManager rowManager;
 
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
   private int characterIndex;
   private bool started;
   private bool isPrepared;
+  private bool hasRestarted;
   private float menuToTheRight;
 
   private Vector3 menuPanelInitPos;
@@ -58,9 +60,15 @@ public class GameManager : MonoBehaviour
 
       Instance.rowManager = this.rowManager;
       Instance.levelChanger = this.levelChanger;
+      Instance.startButton = this.startButton;
 
       Instance.isPrepared = false;
       Instance.started = false;
+
+      if (Instance.hasRestarted)
+        Instance.startButton.SetText("Restart");
+
+      Instance.UpdateMaxScore();
 
       Destroy(gameObject);
     }
@@ -74,7 +82,7 @@ public class GameManager : MonoBehaviour
     started = false;
     isPrepared = false;
     maxScore = 0;
-    characterIndex = -1;
+    characterIndex = 0;
 
     menuToTheRight = Screen.width * 2;
 
@@ -106,14 +114,15 @@ public class GameManager : MonoBehaviour
 
   public void Restart()
   {
+    SetHasRestarted();
     levelChanger.FadeToLevel(SceneManager.GetActiveScene().buildIndex);
   }
 
   public GameObject GetPlayerPrefab()
   {
     // return characters[8];
-    if (characterIndex == -1)
-      return characters[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * characters.Count)];
+    // if (characterIndex == -1)
+    //   return characters[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * characters.Count)];
     return characters[characterIndex];
   }
 
@@ -121,6 +130,7 @@ public class GameManager : MonoBehaviour
   {
     started = true;
 
+    playerController.StartGame();
     cameraController.StartGame();
     // playerController
   }
@@ -134,6 +144,11 @@ public class GameManager : MonoBehaviour
   public void SetCharacterIndex(int index)
   {
     characterIndex = index;
+  }
+
+  public int GetCharacterIndex()
+  {
+    return characterIndex;
   }
 
   private void ShowMenu()
@@ -151,6 +166,11 @@ public class GameManager : MonoBehaviour
     scorePanel.offsetMax = Vector2.Lerp(scorePanel.offsetMax, new Vector2(scorePanel.offsetMax.x, 0), uiLerpFactor);
   }
 
+  private void SetHasRestarted()
+  {
+    hasRestarted = true;
+  }
+
   private void UpdateScore()
   {
     int score = rowManager.GetMaxLevel();
@@ -163,4 +183,9 @@ public class GameManager : MonoBehaviour
     }
   }
 
+  private void UpdateMaxScore()
+  {
+    Debug.Log(maxScore);
+    maxScoreText.SetText("top: " + maxScore.ToString());
+  }
 }

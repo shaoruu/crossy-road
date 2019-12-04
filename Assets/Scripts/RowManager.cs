@@ -30,6 +30,7 @@ public class RowManager : MonoBehaviour
 
   private int maxLevel;
   private int currentLevel;
+  private bool isFirstTime;
 
   private Dictionary<int, GameObject> rowObjects = new Dictionary<int, GameObject>();
   private Dictionary<string, GameObject> treeObjects = new Dictionary<string, GameObject>();
