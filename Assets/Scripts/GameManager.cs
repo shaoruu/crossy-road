@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
   public CameraController cameraController;
   public PlayerController playerController;
+  public LevelChanger levelChanger;
 
   public RectTransform scorePanel;
   public RectTransform menuPanel;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
       Instance.maxScoreText = this.maxScoreText;
 
       Instance.rowManager = this.rowManager;
+      Instance.levelChanger = this.levelChanger;
 
       Instance.isPrepared = false;
       Instance.started = false;
@@ -104,7 +106,7 @@ public class GameManager : MonoBehaviour
 
   public void Restart()
   {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    levelChanger.FadeToLevel(SceneManager.GetActiveScene().buildIndex);
   }
 
   public GameObject GetPlayerPrefab()
@@ -126,7 +128,7 @@ public class GameManager : MonoBehaviour
   public void GoToCharactersPage()
   {
     isPrepared = false;
-    SceneManager.LoadScene(1);
+    levelChanger.FadeToLevel(1);
   }
 
   public void SetCharacterIndex(int index)

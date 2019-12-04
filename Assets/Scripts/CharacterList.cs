@@ -18,6 +18,7 @@ public class CharacterList : MonoBehaviour
   public GameObject stagePrefab;
   public Image infoBackground;
   public TextMeshProUGUI infoText;
+  public LevelChanger levelChanger;
   // public List<GameObject> characterPrefabs;
 
   private int index;
@@ -38,13 +39,13 @@ public class CharacterList : MonoBehaviour
     characterInfo = new List<string>(){
       "Bunny",
       "Chicky",
-      "Dig Dug Man",
       "Ducky",
       "Duckman",
       "Frogger",
       "Luigi",
       "Mario",
-      "Steve"
+      "Steve",
+      "Dig Dug Man"
     };
 
     nextPosition = mainCamera.transform.position;
@@ -102,7 +103,7 @@ public class CharacterList : MonoBehaviour
     if (isEnterDown)
     {
       GameManager.Instance.SetCharacterIndex(Mathf.RoundToInt(GetNearestZ(mainCamera.transform.position.z) / characterGap));
-      SceneManager.LoadScene(0);
+      levelChanger.FadeToLevel(0);
       return;
     }
 
