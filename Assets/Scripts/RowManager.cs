@@ -15,6 +15,7 @@ public class RowManager : MonoBehaviour
   public Material riverRowMaterial;
   public AudioSource advanceLvlSFX;
   public List<GameObject> treePrefabs;
+  public List<GameObject> obstaclePrefabs;
 
   public int rowsAhead;
   public int rowsBehind;
@@ -260,13 +261,17 @@ public class RowManager : MonoBehaviour
 
     for (int i = 0; i < rowData.Length; i++)
     {
+
       int state = rowData[i];
       switch (state)
       {
         case Configs.WALKABLE_STATE:
           break;
         case Configs.OBSTACLE_STATE:
-          PlaceTreeAt(x, i - (grid.size - 1) / 2);
+          if (i >= maxTreeInner && i < grid.size - maxTreeInner)
+            PlaceObstacleAt(x, i - (grid.size - 1) / 2);
+          else
+            PlaceTreeAt(x, i - (grid.size - 1) / 2);
           break;
       }
     }
@@ -286,9 +291,29 @@ public class RowManager : MonoBehaviour
     treeObjects.Add(rep, newObstacle);
   }
 
+  private void PlaceObstacleAt(int x, int z)
+  {
+    string rep = GetTreeRep(x, z);
+    if (treeObjects.ContainsKey(rep)) return;
+
+    GameObject newObstacle = Instantiate(
+       GetRandomeObstaclePrefab(),
+       new Vector3(grid.GetGlobalCoordFromGridCoord(x), 0, grid.GetGlobalCoordFromGridCoord(z)),
+       Quaternion.identity,
+       obstacleGroup.transform
+     );
+    treeObjects.Add(rep, newObstacle);
+  }
+
   private GameObject GetRandomTreePrefab()
   {
     return treePrefabs[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * treePrefabs.Count)];
+  }
+
+  private GameObject GetRandomeObstaclePrefab()
+  {
+    return obstaclePrefabs[Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * obstaclePrefabs.Count)];
+
   }
 
   private bool ShouldPlaceObstacle()

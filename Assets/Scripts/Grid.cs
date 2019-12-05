@@ -33,7 +33,8 @@ public class Grid : MonoBehaviour
     // CHECK IF IT'S A RIVER
     if (rowManager.IsLogRiverAt(gridX))
     {
-      GameObject landingLog = riversManager.GetLogAt(newPos);
+      position.x += dimension;
+      GameObject landingLog = riversManager.GetLogAt(position);
       if (landingLog == null)
       {
         Debug.Log("SHIT NO LOG");
@@ -41,11 +42,13 @@ public class Grid : MonoBehaviour
       }
       else
       {
+        Debug.Log(position.z);
         int logGridZ = GetGridCoordFromGlobalCoord(landingLog.transform.position.z);
-        int newPosGridZ = GetGridCoordFromGlobalCoord(newPos.z);
+        Debug.Log(logGridZ);
+        int newPosGridZ = GetGridCoordFromGlobalCoord(position.z);
         float delta = (newPosGridZ - logGridZ) * dimension;
         playerController.LatchOn(landingLog, delta);
-        return newPos;
+        return position;
       }
     }
     else if (rowManager.IsLilyRiverAt(gridX))
@@ -77,7 +80,8 @@ public class Grid : MonoBehaviour
     // CHECK IF IT'S A RIVER
     if (rowManager.IsLogRiverAt(gridX))
     {
-      GameObject landingLog = riversManager.GetLogAt(newPos);
+      position.x -= dimension;
+      GameObject landingLog = riversManager.GetLogAt(position);
       if (landingLog == null)
       {
         Debug.Log("SHIT NO LOG");
@@ -86,10 +90,10 @@ public class Grid : MonoBehaviour
       else
       {
         int logGridZ = GetGridCoordFromGlobalCoord(landingLog.transform.position.z);
-        int newPosGridZ = GetGridCoordFromGlobalCoord(newPos.z);
+        int newPosGridZ = GetGridCoordFromGlobalCoord(position.z);
         float delta = (newPosGridZ - logGridZ) * dimension;
         playerController.LatchOn(landingLog, delta);
-        return newPos;
+        return position;
       }
     }
     else if (rowManager.IsLilyRiverAt(gridX))

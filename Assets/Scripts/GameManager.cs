@@ -151,6 +151,12 @@ public class GameManager : MonoBehaviour
     return characterIndex;
   }
 
+  public void GoToAboutPage()
+  {
+    isPrepared = false;
+    levelChanger.FadeToLevel(2);
+  }
+
   private void ShowMenu()
   {
     menuPanel.offsetMax = Vector2.Lerp(menuPanel.offsetMax, menuPanelInitPos, uiLerpFactor);

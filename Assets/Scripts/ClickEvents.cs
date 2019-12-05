@@ -22,4 +22,10 @@ public class ClickEvents : MonoBehaviour
     buttonClickSFX.Play();
     GameManager.Instance.GoToCharactersPage();
   }
+
+  public void GoToAboutPage()
+  {
+    buttonClickSFX.Play();
+    GameManager.Instance.GoToAboutPage();
+  }
 }

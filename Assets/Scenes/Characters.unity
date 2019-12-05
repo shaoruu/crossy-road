@@ -557,11 +557,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelChanger
       objectReference: {fileID: 0}
-    - target: {fileID: 5260294750934820380, guid: 8bd5d54538d974e26af1b63d9907d6f1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5260294750943450215, guid: 8bd5d54538d974e26af1b63d9907d6f1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -615,6 +610,11 @@ PrefabInstance:
     - target: {fileID: 5260294750943450215, guid: 8bd5d54538d974e26af1b63d9907d6f1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260294750934820380, guid: 8bd5d54538d974e26af1b63d9907d6f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2286,7 +2286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9114125360101337421}
   m_LocalRotation: {x: 0, y: -0.93009734, z: 0, w: 0.3673131}
-  m_LocalPosition: {x: 1.57, y: 0.3, z: 17.27}
+  m_LocalPosition: {x: 1.57, y: -0.3, z: 17.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1673206233}

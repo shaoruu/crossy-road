@@ -44,7 +44,7 @@ public class RiversManager : MonoBehaviour
 
       for (int i = 0; i < grid.size; i++)
       {
-        float logZ = grid.GetGlobalCoordFromGridCoord(direction * (-(grid.size + 1) / 2 + i));
+        float logZ = grid.GetGlobalCoordFromGridCoord(direction * (-(grid.size + 1) / 2 + i)) + direction * logWidth;
         if (ShouldPlaceLog(x))
         {
           GameObject newLog = Instantiate(
@@ -56,7 +56,7 @@ public class RiversManager : MonoBehaviour
 
           logs.Add(newLog);
 
-          i += logGridWidth + 1;
+          i += logGridWidth;
         }
       }
       logRows.Add(x, logs);
@@ -154,7 +154,7 @@ public class RiversManager : MonoBehaviour
 
   public GameObject GetLogAt(Vector3 position)
   {
-    Collider[] logs = Physics.OverlapSphere(position, grid.dimension / 4, logsMask);
+    Collider[] logs = Physics.OverlapSphere(position, grid.dimension / 8, logsMask);
     if (logs.Length == 0) return null;
     return logs[0].gameObject;
   }
@@ -214,9 +214,10 @@ public class RiversManager : MonoBehaviour
 
   void Start()
   {
-    Vector3 logScale = logPrefab.transform.localScale;
-    logScale.z = grid.dimension * (logGridWidth + 1);
-    logPrefab.transform.localScale = logScale;
+    // Vector3 logScale = logPrefab.transform.localScale;
+    // logScale.z = grid.dimension * (logGridWidth);
+    // logPrefab.transform.localScale = logScale;
+    // logPrefab.GetComponent<BoxCollider>().size = logScale;
 
     logWidth = logPrefab.GetComponent<BoxCollider>().bounds.size.z;
   }

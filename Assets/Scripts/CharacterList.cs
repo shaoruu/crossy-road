@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class CharacterList : MonoBehaviour
@@ -47,7 +46,8 @@ public class CharacterList : MonoBehaviour
       "Luigi",
       "Mario",
       "Steve",
-      "Dig Dug Man"
+      "Dig Dug Man",
+      "QBert"
     };
 
     index = gameManager.GetCharacterIndex();
